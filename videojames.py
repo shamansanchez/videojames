@@ -12,7 +12,10 @@ def lfg(body):
     conn = sqlite3.connect('videojames.db')
     c = conn.cursor()
 
-    slack = SlackClient(os.environ.get("SLACK_TOKEN"))
+    with open("/etc/videojames/token","r") as token_file:
+        token = token_file.read().strip()
+
+    slack = SlackClient(token)
 
     res = c.execute('SELECT user FROM games WHERE game=?', (body['text'],))
     users = res.fetchall()
