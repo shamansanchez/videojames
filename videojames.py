@@ -12,7 +12,7 @@ def lfg(body):
     conn = sqlite3.connect('videojames.db')
     c = conn.cursor()
 
-    slack = SlackClient(os.environ("SLACK_TOKEN"))
+    slack = SlackClient(os.environ.get("SLACK_TOKEN"))
 
     res = c.execute('SELECT user FROM games WHERE game=?', (body['text'],))
     users = res.fetchall()
