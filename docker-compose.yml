@@ -1,0 +1,15 @@
+---
+version: '3'
+
+services:
+  videojames:
+    build: .
+    environment:
+      - SLACK_TOKEN
+    command: "hug -f videojames.py"
+    labels:
+      - 'traefik.backend=videojames'
+      - 'traefik.frontend.rule=Host: videojames.shamansanchez.com'
+    volumes:
+      - .:/app
+    restart: always
