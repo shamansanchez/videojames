@@ -6,9 +6,16 @@ import requests
 import hug
 from slackclient import SlackClient
 
+def _validate_token(token):
+    with open("/etc/videojames/verification_token", "r") as token_file:
+        verification_token = token_file.read().strip()
+        return token == verification_token
 
 @hug.post()
 def lfg(body):
+    if not _validate_token(body['token']):
+        return
+
     conn = sqlite3.connect('videojames.db')
     c = conn.cursor()
 
@@ -44,6 +51,9 @@ def lfg(body):
 
 @hug.post()
 def games(body):
+    if not _validate_token(body['token']):
+        return
+
     conn = sqlite3.connect('videojames.db')
     c = conn.cursor()
 
@@ -62,6 +72,9 @@ def games(body):
 
 @hug.post()
 def subscribe(body):
+    if not _validate_token(body['token']):
+        return
+
     conn = sqlite3.connect('videojames.db')
     try:
         c = conn.cursor()
@@ -79,6 +92,9 @@ def subscribe(body):
 
 @hug.post()
 def unsubscribe(body):
+    if not _validate_token(body['token']):
+        return
+
     conn = sqlite3.connect('videojames.db')
     c = conn.cursor()
     c.execute('DELETE FROM games WHERE user=? AND game=?', (body['user_id'], body['text']))

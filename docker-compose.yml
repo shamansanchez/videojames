@@ -10,5 +10,6 @@ services:
       - 'traefik.frontend.rule=Host: videojames.shamansanchez.com'
     volumes:
       - /etc/videojames/token:/etc/videojames/token
+      - /etc/videojames/verification_token:/etc/videojames/verification_token
       - /etc/videojames/db:/app/videojames.db
     restart: always
